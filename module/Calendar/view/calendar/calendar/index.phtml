@@ -76,13 +76,15 @@
 					<h4 class="modal-title">Event Details</h4>
 				</div>
 				<div id="modalBody" class="modal-body">
-					<h4 id="modalTitle" class="modal-title"></h4>
+				      <input id="modalTitle" class="form-control" type="text" name="fname" ><br>
+<!-- 					<h4 id="modalTitle" class="modal-title"></h4>  -->
 					<div id="modalWhen" style="margin-top:5px;"></div>
 				</div>
 				<input type="hidden" id="eventID"/>
 				<div class="modal-footer">
 					<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
 					<button type="submit" class="btn btn-danger" id="deleteButton">Delete</button>
+					<button type="submit" class="btn btn-primary" id="updateButton">Save</button>
 				</div>
 			</div>
 		</div>
@@ -106,8 +108,6 @@
 
 					<input type="hidden" id="startTime"/>
 					<input type="hidden" id="endTime"/>
-
-
 
 					<div class="control-group">
 						<label class="control-label" for="when">When:</label>
@@ -182,7 +182,7 @@
              $(this).data('event', {               
                  title: $.trim($(this).text()), // use the element's text as the event title
                  start: $.trim('17:30'),
-                 end:  $.trim('18:00'),
+                 end:  $.trim('19:30'),
                  stick: true // maintain when user navigates (see docs on the renderEvent method)
              });
          
@@ -203,7 +203,7 @@
         	 //FUNZIONE CHIAMATA QUANDO MODIFICO L'EVENTO
         	 eventResize: function(event) {
             	
-                 alert("resize");
+                 
 //                  $.ajax({
 //                      url: 'home.php',
 //                      data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id,
@@ -215,7 +215,7 @@
              },
         	 //FUNZIONE CHIAMATA QUANDO MUOVO L'EVENTO
         	 eventDrop: function(event, delta){
-            	 alert("dropevent");
+            	 
 //                  $.ajax({
 //                      url: 'home.php',
 //                      data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id ,
@@ -238,13 +238,13 @@
             },
              //FUNZIONE CHIAMATO QUANDO CLICCO SULL'EVENTO
              eventClick:  function(event, jsEvent, view) {
-            	 alert(event.start);
+            	 
             	 starttime = event.start.format('dddd, MMMM Do YYYY, h:mm');
-            	 alert(starttime);
+            	 
                  endtime = event.end.format('h:mm');
                                   
                  var mywhen = starttime + ' - ' + endtime;
-                 $('#modalTitle').html(event.title);
+                 $('#modalTitle').val(event.title);
                  $('#modalWhen').text(mywhen);
                  $('#eventID').val(event.id);
                  $('#calendarModal').modal();
@@ -256,6 +256,7 @@
                  right: 'month,agendaWeek,agendaDay,listMonth'
              },
              defaultDate: '<?php echo date("Y-m-d")?>',
+             slotDuration: '00:10:00',
              navLinks: true, // can click day/week names to navigate views
              businessHours: true, // display business hours
              editable: true,
@@ -338,7 +339,7 @@
          $('#deleteButton').on('click', function(e){
              // We don't want this to act as a link so cancel the link action
              e.preventDefault();
-            // doDelete();
+             doDelete();
          });
          function doSubmit(){ 
           	  $("#createEventModal").modal('hide');
@@ -349,7 +350,7 @@
          
                 $('#calendar').fullCalendar('renderEvent',
                         {
-                          //  id: json.id,
+                            id: Math.floor(Math.random() * 100000),
                             title: title,
                             start: startTime,
                             end:  endTime,
@@ -357,6 +358,13 @@
                         true);
 
       }
+         function doDelete(){
+             $("#calendarModal").modal('hide');
+             var eventID = $('#eventID').val();
+alert(eventID);
+                          $("#calendar").fullCalendar('removeEvents',eventID);
+
+         }
   }
      
       
