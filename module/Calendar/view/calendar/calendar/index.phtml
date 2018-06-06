@@ -168,7 +168,7 @@
       <!-- End Theme label Script
          =====================================================================-->
       <script>
-     
+    var evento; 
       
       function calndr() {    
     	  var calender = $('#calendar');
@@ -238,7 +238,7 @@
             },
              //FUNZIONE CHIAMATO QUANDO CLICCO SULL'EVENTO
              eventClick:  function(event, jsEvent, view) {
-            	 
+            	 evento = event;
             	 starttime = event.start.format('dddd, MMMM Do YYYY, h:mm');
             	 
                  endtime = event.end.format('h:mm');
@@ -341,6 +341,11 @@
              e.preventDefault();
              doDelete();
          });
+         $('#updateButton').on('click', function(e){
+             // We don't want this to act as a link so cancel the link action
+             e.preventDefault();
+             doUpdate();
+         });
          function doSubmit(){ 
           	  $("#createEventModal").modal('hide');
                 var title = $('#title').val();
@@ -361,9 +366,13 @@
          function doDelete(){
              $("#calendarModal").modal('hide');
              var eventID = $('#eventID').val();
-alert(eventID);
-                          $("#calendar").fullCalendar('removeEvents',eventID);
+             $("#calendar").fullCalendar('removeEvents',eventID);
 
+         }
+         function doUpdate(){
+             $("#calendarModal").modal('hide');
+             evento.title = $('#modalTitle').val();
+             $('#calendar').fullCalendar('updateEvent', evento);
          }
   }
      
