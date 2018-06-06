@@ -1,4 +1,4 @@
-ZendSkeletonApplication
+kkkk ZendSkeletonApplication
 =======================
 
 Introduction
@@ -61,7 +61,8 @@ interfaces.
 
 ### Apache Setup
 
-To setup apache, setup a virtual host to point to the public/ directory of the
+To setup apache, setup a 
+virtual host to point to the public/ directory of the
 project and you should be ready to go! It should look something like below:
 
     <VirtualHost *:80>
@@ -75,3 +76,4 @@ project and you should be ready to go! It should look something like below:
             Allow from all
         </Directory>
     </VirtualHost>
+pippo bello
